@@ -1,4 +1,3 @@
-```markdown
 # Lab 04 — Modular Terraform Structure
 
 ## What this lab does
@@ -30,6 +29,7 @@ lab04_terraform_modular/
 - **Resource references** — connecting resources using TYPE.NAME.attribute syntax
 
 ## How to use
+
 ```bash
 # 1. Generate SSH key pair
 ssh-keygen -t rsa -b 4096 -f my-key-terraform-lab
@@ -55,5 +55,3 @@ terraform destroy
 |------|-------------|
 | public_ip | Instance public IP for SSH access |
 | instance_id | AWS instance ID |
-```
-
