@@ -12,6 +12,7 @@ into separate files by responsibility.
 - Key Pair (generated locally with ssh-keygen)
 
 ## File structure
+
 ```bash
 lab04_terraform_modular/
 ├── main.tf           # Core AWS resources
