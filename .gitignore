@@ -45,3 +45,4 @@ terraform.rc
 *.pub
 my-key-terraform-lab
 *.pem
+my-key-lab05
