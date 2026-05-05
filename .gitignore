@@ -46,3 +46,4 @@ terraform.rc
 my-key-terraform-lab
 *.pem
 my-key-lab05
+my-key-lab06
