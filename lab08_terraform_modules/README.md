@@ -1,20 +1,26 @@
+
 ```markdown
-# Lab 08 — Terraform Modules
+# 🧱 Lab 08 — Terraform Modules
 
-## What this lab does
-This lab refactors the full stack architecture from lab07 into reusable Terraform modules.
-The infrastructure deployed is identical — VPC, EC2, RDS, S3, and IAM — but the code is now
-organized into isolated, reusable modules that communicate through outputs.
+[![Terraform](https://img.shields.io/badge/Terraform-1.5+-purple.svg)](https://www.terraform.io/)
+[![AWS](https://img.shields.io/badge/AWS-Provider-orange.svg)](https://aws.amazon.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## Infrastructure created
-Same 17 resources as lab07, now split across 5 modules:
+## 📋 What this lab does
+
+This lab refactors the full stack architecture from **Lab 07** into reusable Terraform modules. The infrastructure deployed is identical — VPC, EC2, RDS, S3, and IAM — but the code is now organized into isolated, reusable modules that communicate through outputs.
+
+## 🏗️ Infrastructure created
+
+Same **17 resources** as Lab 07, now split across **5 modules**:
+
 - **vpc** — VPC, Internet Gateway, public and private subnets, route table and association
 - **ec2** — Security Group, Key Pair, EC2 instance with nginx and AWS CLI via user_data
 - **rds** — Security Group, DB Subnet Group, RDS MySQL 8.0
 - **s3** — S3 Bucket, public access block
 - **iam** — IAM Role, Trust Policy, IAM Policy, Instance Profile
 
-## Module structure
+## 📁 Module structure
 
 ```
 lab08_terraform_modules/
@@ -47,10 +53,9 @@ lab08_terraform_modules/
         └── outputs.tf
 ```
 
-## How modules communicate
+## 🔄 How modules communicate
 
-Modules are isolated — one module cannot read resources from another directly.
-The only way to pass data between modules is through outputs.
+Modules are isolated — one module cannot read resources from another directly. The only way to pass data between modules is through **outputs**.
 
 ```
 S3  ──── s3_bucket_arn ─────────────────▶ IAM
@@ -62,10 +67,9 @@ EC2 ──── sg_ec2_id ─────────────────�
 RDS ──── (no exports)
 ```
 
-Terraform reads these references and automatically builds a dependency graph —
-it knows it must create VPC before EC2, and EC2 before RDS, without specifying the order explicitly.
+Terraform reads these references and automatically builds a **dependency graph** — it knows it must create VPC before EC2, and EC2 before RDS, without specifying the order explicitly.
 
-## Key concepts learned in this lab
+## 🧠 Key concepts learned
 
 - **Module structure** — every module has `main.tf`, `variables.tf`, and `outputs.tf`
 - **Variables as inputs** — modules receive values from the root via variables, no hardcoded values inside modules
@@ -74,7 +78,15 @@ it knows it must create VPC before EC2, and EC2 before RDS, without specifying t
 - **Dependency graph** — Terraform resolves creation order automatically based on references
 - **Reusability** — the same module can be called multiple times with different values to deploy different environments
 
-## How to use
+## 🚀 How to use
+
+### Prerequisites
+
+- [Terraform](https://www.terraform.io/downloads.html) (v1.5+)
+- [AWS CLI](https://aws.amazon.com/cli/) configured with appropriate credentials
+- SSH key generation tool
+
+### Deployment steps
 
 ```bash
 # 1. Generate SSH key pair inside modules/ec2/
@@ -86,11 +98,11 @@ terraform init
 # 3. Preview changes
 terraform plan
 
-# 4. Deploy
+# 4. Deploy infrastructure
 terraform apply
 
 # 5. Verify nginx is running
-http://<public_ip>
+curl http://<public_ip>
 
 # 6. Connect to the instance
 ssh -i modules/ec2/my-key-lab08 ec2-user@<public_ip>
@@ -102,17 +114,17 @@ aws s3 ls s3://<bucket_name>
 terraform destroy
 ```
 
-## Outputs
+## 📤 Outputs
 
 | Name | Description |
 |------|-------------|
-| public_ip | EC2 public IP for SSH and HTTP access |
-| instance_id | AWS instance ID |
-| bucket_name | S3 bucket name |
-| iam_role | IAM instance profile name |
-| RDS_end_point | RDS MySQL endpoint |
+| `public_ip` | EC2 public IP for SSH and HTTP access |
+| `instance_id` | AWS instance ID |
+| `bucket_name` | S3 bucket name |
+| `iam_role` | IAM instance profile name |
+| `RDS_end_point` | RDS MySQL endpoint |
 
-## Resources created — 17 total
+## 📊 Resources created — 17 total
 
 | Resource | Count |
 |----------|-------|
@@ -126,13 +138,12 @@ terraform destroy
 | S3 Bucket + Public Access Block | 2 |
 | IAM Role + Policy + Instance Profile | 3 |
 
-## Difference vs lab07
+## 🆚 Difference vs Lab 07
 
-| | lab07 | lab08 |
-|--|-------|-------|
-| Structure | Single `main.tf` with all resources | 5 isolated modules |
-| Reusability | Copy and modify entire file | Call module with different variables |
-| Readability | 200+ lines in one file | Root `main.tf` is a clean blueprint |
-| Data sharing | Direct resource references | Explicit outputs between modules |
-```
+| Aspect | Lab 07 | Lab 08 |
+|--------|--------|--------|
+| **Structure** | Single `main.tf` with all resources | 5 isolated modules |
+| **Reusability** | Copy and modify entire file | Call module with different variables |
+| **Readability** | 200+ lines in one file | Root `main.tf` is a clean blueprint |
+| **Data sharing** | Direct resource references | Explicit outputs between modules |
 
