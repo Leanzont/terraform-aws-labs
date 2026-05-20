@@ -11,12 +11,15 @@ Each lab focuses on a specific concept, building on the previous one.
 | [Lab 06 — IAM Role and S3](./lab06_iam_s3_role/) | EC2 accessing a private S3 bucket using an IAM Role | IAM Role, Trust Policy, IAM Policy, Instance Profile, S3, least privilege |
 | [Lab 07 — Full Stack AWS](./lab07_full_stack_aws/) | Complete architecture combining all core AWS services | VPC, EC2, RDS, S3, IAM, Internet Gateway, Route Table, Security Groups, Instance Profile |
 | [Lab 08 — Terraform Modules](./lab08_terraform_modules/) | Lab 07 refactored into reusable Terraform modules | Modules, inputs, outputs as exports, inter-module communication, dependency graph |
+| [Lab 09 — Remote State](./lab09_remote_state/) | Centralized state management with S3 backend and DynamoDB locking | Remote state, S3 backend, DynamoDB lock, state corruption prevention, backend.tf |
 
 ## Tech stack
+
 - Terraform
-- AWS (EC2, RDS, S3, VPC, IAM, Security Groups, Key Pairs, Internet Gateway, Route Tables)
+- AWS (EC2, RDS, S3, VPC, IAM, Security Groups, Key Pairs, Internet Gateway, Route Tables, DynamoDB)
 - Linux (Arch)
 
 ## Goals
+
 Building a solid foundation in cloud infrastructure to work remotely
 for international companies as a Cloud/DevOps Engineer.
