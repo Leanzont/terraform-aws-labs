@@ -48,6 +48,6 @@ jobs:
       # Step 7 — Shows what changes would be applied
       - name: Terraform Plan
         working-directory: lab09_remote_state
-        run: terraform plan
+        run: terraform plan -var="project_name=lab09-remote-state" -var="instance_type=t2.micro" -var="region=us-east-2"
       
 
