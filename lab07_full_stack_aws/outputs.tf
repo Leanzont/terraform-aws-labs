@@ -1,6 +1,6 @@
 output "public_ip" {
   description = "Public ip for the intance"
-  value      = aws_instance.ec2.public_ip
+  value       = aws_instance.ec2.public_ip
 }
 
 output "bucket_name" {
@@ -15,10 +15,10 @@ output "iam_role" {
 
 output "instance_id" {
   description = "Instance ID"
-  value       = aws_instance.ec2.id 
+  value       = aws_instance.ec2.id
 }
 
 output "RDS_end_point" {
   description = "RDS end point"
-  value       = aws_db_instance.mysql.endpoint 
+  value       = aws_db_instance.mysql.endpoint
 }

@@ -4,7 +4,7 @@
 # Public IP to connect via SSH
 output "public_ip" {
   description = "The instance public IP"
-  value       = aws_instance.servidor.public_ip 
+  value       = aws_instance.servidor.public_ip
 }
 
 # Instance ID assigned by AWS

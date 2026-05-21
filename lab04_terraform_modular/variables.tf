@@ -2,14 +2,14 @@
 # Separating declarations from values allows multiple environments (dev, prod)
 
 variable "region" {
-  type = string 
+  type = string
 }
 
 variable "instance_type" {
-  type = string 
+  type = string
 }
 
 variable "proyect_name" {
-  type = string 
+  type = string
 }
 

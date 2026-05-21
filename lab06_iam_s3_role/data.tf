@@ -1,5 +1,5 @@
 data "aws_ami" "amazon_linux_2" {
-  most_recent = true 
+  most_recent = true
   owners      = ["amazon"]
 
   filter {
@@ -10,4 +10,4 @@ data "aws_ami" "amazon_linux_2" {
 
 data "http" "my_ip" {
   url = "https://checkip.amazonaws.com"
-} 
+}

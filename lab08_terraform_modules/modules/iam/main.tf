@@ -1,7 +1,7 @@
 # IAM role whit trust policy 
 resource "aws_iam_role" "role_ec2" {
   name = "${var.project_name}-role-ec2"
-  
+
   #trust policy 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -11,7 +11,7 @@ resource "aws_iam_role" "role_ec2" {
         Principal = {
           Service = "ec2.amazonaws.com"
         }
-        Action = "sts:AssumeRole" 
+        Action = "sts:AssumeRole"
       }
     ]
   })
@@ -48,5 +48,5 @@ resource "aws_iam_role_policy" "s3_policy" {
 # Instance Profile 
 resource "aws_iam_instance_profile" "ec2_profile" {
   name = "${var.project_name}-ec2-profile"
-  role = aws_iam_role.role_ec2.name 
+  role = aws_iam_role.role_ec2.name
 }

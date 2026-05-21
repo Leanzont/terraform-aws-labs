@@ -2,7 +2,7 @@
 resource "aws_security_group" "sg_ec2" {
   name        = "${var.project_name}-sg-ec2"
   description = "my security group ssh and http"
-  vpc_id      = var.vpc_id 
+  vpc_id      = var.vpc_id
 
   ingress {
     description = "SSH"
@@ -30,17 +30,17 @@ resource "aws_security_group" "sg_ec2" {
 
 # key pair 
 resource "aws_key_pair" "my_key_ec2" {
-  key_name = "my-key-lab08"
+  key_name   = "my-key-lab08"
   public_key = file("~/terraform/lab08_terraform/modules/ec2/my-key-lab08.pub")
 }
 
 # ec2 instance 
 resource "aws_instance" "my_instance_ec2" {
-  ami                    = var.ami 
-  instance_type          = var.instance_type 
-  subnet_id              = var.subnet_public_id 
+  ami                    = var.ami
+  instance_type          = var.instance_type
+  subnet_id              = var.subnet_public_id
   vpc_security_group_ids = [aws_security_group.sg_ec2.id]
-  key_name               = aws_key_pair.my_key_ec2.key_name 
+  key_name               = aws_key_pair.my_key_ec2.key_name
   iam_instance_profile   = var.instance_profile_name
 
   user_data = <<-EOF

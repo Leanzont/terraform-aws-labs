@@ -5,7 +5,7 @@ output "public_ip" {
 
 output "instance_id" {
   description = "Instane ID"
-  value       = aws_instance.web.id  
+  value       = aws_instance.web.id
 }
 
 output "RDS_end_point" {

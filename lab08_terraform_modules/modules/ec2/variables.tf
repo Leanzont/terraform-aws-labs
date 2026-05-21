@@ -1,5 +1,5 @@
 variable "ami" {
-  type = string 
+  type = string
 }
 
 variable "instance_type" {
@@ -15,13 +15,13 @@ variable "my_ip" {
 }
 
 variable "vpc_id" {
-  type = string 
+  type = string
 }
 
 variable "instance_profile_name" {
-  type = string 
+  type = string
 }
 
 variable "project_name" {
-  type = string 
+  type = string
 }

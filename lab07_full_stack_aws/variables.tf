@@ -7,14 +7,14 @@ variable "instance_type" {
 }
 
 variable "project_name" {
-  type = string 
+  type = string
 }
- 
+
 variable "db_password" {
   type      = string
-  sensitive = true 
+  sensitive = true
 }
 
 variable "s3_bucket_name" {
-  type = string 
+  type = string
 }

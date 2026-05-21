@@ -1,8 +1,8 @@
 # Principal VPC 
 resource "aws_vpc" "main_vpc" {
-  cidr_block           = "10.0.0.0/16" 
-  enable_dns_hostnames = true 
-  enable_dns_support    = true
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_hostnames = true
+  enable_dns_support   = true
 
   tags = {
     Name = var.project_name
@@ -43,7 +43,7 @@ resource "aws_subnet" "private_subnet" {
 
 # Rote Table 
 resource "aws_route_table" "public_subnet" {
-  vpc_id = aws_vpc.main_vpc.id 
+  vpc_id = aws_vpc.main_vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -58,7 +58,7 @@ resource "aws_route_table" "public_subnet" {
 # Associate the route table with the public subnet 
 resource "aws_route_table_association" "public-subnet" {
   subnet_id      = aws_subnet.public_subnet.id
-  route_table_id = aws_route_table.public_subnet.id 
+  route_table_id = aws_route_table.public_subnet.id
 }
 
 # Security Group EC2 
@@ -79,7 +79,7 @@ resource "aws_security_group" "ec2_instance" {
   # for ingress any ip http
   ingress {
     description = "HTTP"
-    from_port   = 80 
+    from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
@@ -87,7 +87,7 @@ resource "aws_security_group" "ec2_instance" {
 
   egress {
     from_port   = 0
-    to_port     = 0 
+    to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -100,17 +100,17 @@ resource "aws_security_group" "ec2_instance" {
 
 # Key Pair for EC2 
 resource "aws_key_pair" "my_key" {
-  key_name = "my-key-lab07"
+  key_name   = "my-key-lab07"
   public_key = file("~/terraform/lab07_terraform/my-key-lab07.pub")
-} 
+}
 
 # put EC2 in public subnet 
 resource "aws_instance" "ec2" {
   ami                    = data.aws_ami.amazon_linux_2.id
   instance_type          = var.instance_type
-  subnet_id              = aws_subnet.public_subnet.id  # <-- this use the id the public_subnet
-  vpc_security_group_ids = [aws_security_group.ec2_instance.id] 
-  key_name               = aws_key_pair.my_key.key_name 
+  subnet_id              = aws_subnet.public_subnet.id # <-- this use the id the public_subnet
+  vpc_security_group_ids = [aws_security_group.ec2_instance.id]
+  key_name               = aws_key_pair.my_key.key_name
   iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
 
   # we install everything we need 
@@ -131,13 +131,13 @@ resource "aws_instance" "ec2" {
 
 # security group RDS 
 resource "aws_security_group" "rds" {
-  name = "${var.project_name}-rds-sg"
+  name        = "${var.project_name}-rds-sg"
   description = "allow MySQL from ec2 only"
-  vpc_id = aws_vpc.main_vpc.id 
+  vpc_id      = aws_vpc.main_vpc.id
 
   ingress {
     description     = "MySQL"
-    from_port       = 3306 
+    from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
     security_groups = [aws_security_group.ec2_instance.id]
@@ -156,8 +156,8 @@ resource "aws_security_group" "rds" {
 }
 
 # DB subnet group Data base 
-resource "aws_db_subnet_group" "main" { 
-  name = "${var.project_name}-db-subnet-group"
+resource "aws_db_subnet_group" "main" {
+  name       = "${var.project_name}-db-subnet-group"
   subnet_ids = [aws_subnet.public_subnet.id, aws_subnet.private_subnet.id]
 
   tags = {
@@ -167,17 +167,17 @@ resource "aws_db_subnet_group" "main" {
 
 # RDS MySQL 
 resource "aws_db_instance" "mysql" {
-  identifier = "${var.project_name}-mysql"
-  engine      = "mysql"
-  engine_version = "8.0"
-  instance_class = "db.t3.micro"
-  allocated_storage = 20 
+  identifier        = "${var.project_name}-mysql"
+  engine            = "mysql"
+  engine_version    = "8.0"
+  instance_class    = "db.t3.micro"
+  allocated_storage = 20
 
-  db_name = "labdb"
+  db_name  = "labdb"
   username = "admin"
   password = var.db_password
 
-  db_subnet_group_name = aws_db_subnet_group.main.name 
+  db_subnet_group_name   = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.rds.id]
 
   skip_final_snapshot = true
@@ -200,10 +200,10 @@ resource "aws_s3_bucket" "main_bucket" {
 resource "aws_s3_bucket_public_access_block" "main_bucket_access" {
   bucket = aws_s3_bucket.main_bucket.id
 
-  block_public_acls       = true 
-  block_public_policy     = true 
-  ignore_public_acls      = true 
-  restrict_public_buckets = true 
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 # IAM role for EC2 
@@ -255,8 +255,8 @@ resource "aws_iam_role_policy" "s3_policy" {
 
 # Instance Profile 
 resource "aws_iam_instance_profile" "ec2_profile" {
-   name = "${var.project_name}-ec2-profile"
-   role = aws_iam_role.ec2_role.name 
+  name = "${var.project_name}-ec2-profile"
+  role = aws_iam_role.ec2_role.name
 }
 
 

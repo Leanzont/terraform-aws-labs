@@ -12,5 +12,5 @@ variable "project_name" {
 
 variable "db_password" {
   type      = string
-  sensitive = true 
+  sensitive = true
 }
