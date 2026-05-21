@@ -1,0 +1,48 @@
+name: Terraform CI
+
+on:                          # When the workflow is triggered
+  push:
+    branches:
+      - main                 # Only when you push to main
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest   # The VM created by GitHub
+
+    steps:
+      # Step 1 — Clones your repository into the VM
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2 — Installs Terraform on the VM
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      # Step 3 — Injects AWS credentials from GitHub Secrets
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      # Step 4 — Init inside the lab09 folder
+      - name: Terraform Init
+        working-directory: lab09_remote_state
+        run: terraform init
+
+      # Step 5 — Verifies code formatting
+      - name: Terraform Format
+        working-directory: lab09_remote_state
+        run: terraform fmt -check
+
+      # Step 6 — Validates syntax
+      - name: Terraform Validate
+        working-directory: lab09_remote_state
+        run: terraform validate
+
+      # Step 7 — Shows what changes would be applied
+      - name: Terraform Plan
+        working-directory: lab09_remote_state
+        run: terraform plan
+
