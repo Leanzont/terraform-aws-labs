@@ -20,7 +20,7 @@ resource "aws_security_group" "sg_ec2" {
 
 resource "aws_key_pair" "my_key" {
   key_name   = "my-key-lab09"
-  public_key = file("~/terraform/lab09_remote_state/my-key-lab09.pub")
+  public_key = file("my-key-lab09.pub")
 }
 
 resource "aws_instance" "ec2" {
