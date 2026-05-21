@@ -45,4 +45,9 @@ jobs:
       - name: Terraform Plan
         working-directory: lab09_remote_state
         run: terraform plan
+      
+      - name: Create SSH public key file
+        run: | 
+          mkdir -p ~/terraform/lab09_remote_state
+          echo "${{ secrets.TF_PUBLIC_KEY }}" > ~/terraform/lab09_remote_state/my-key-lab09.pub
 
