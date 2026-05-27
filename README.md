@@ -12,11 +12,13 @@ Each lab focuses on a specific concept, building on the previous one.
 | [Lab 07 — Full Stack AWS](./lab07_full_stack_aws/) | Complete architecture combining all core AWS services | VPC, EC2, RDS, S3, IAM, Internet Gateway, Route Table, Security Groups, Instance Profile |
 | [Lab 08 — Terraform Modules](./lab08_terraform_modules/) | Lab 07 refactored into reusable Terraform modules | Modules, inputs, outputs as exports, inter-module communication, dependency graph |
 | [Lab 09 — Remote State](./lab09_remote_state/) | Centralized state management with S3 backend and DynamoDB locking | Remote state, S3 backend, DynamoDB lock, state corruption prevention, backend.tf |
+| [Lab 10 — GitHub Actions CI/CD](./lab10_github_actions/) | Automated Terraform verification pipeline on every push | CI/CD, GitHub Actions, workflow triggers, GitHub Secrets, ephemeral VMs, fmt/validate/plan automation |
 
 ## Tech stack
 
 - Terraform
 - AWS (EC2, RDS, S3, VPC, IAM, Security Groups, Key Pairs, Internet Gateway, Route Tables, DynamoDB)
+- GitHub Actions
 - Linux (Arch)
 
 ## Goals
